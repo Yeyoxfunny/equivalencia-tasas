@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Equivalencia de Tasas de Interés</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+   <style>
+      .center-content {
+         margin-left: auto;
+         margin-right: auto;
+         display: block;
+      }
+   </style>
+</head>
+
+<body>
+   <nav>
+      <div class="nav-wrapper">
+         <a href="#" class="brand-logo center">Equivalencia de Tasas de Interés</a>
+      </div>
+   </nav>
+   <div class="container">
+      <div class="card">
+         <div class="card-content">
+            <form id="calcForm" class="row">
+               <div class="input-field col s12">
+                  <input id="disabled" type="text" class="validate" name="interes" placeholder="">
+                  <label for="disabled">Valor del interés(%)</label>
+               </div>
+               <div class="input-field col m6 s12">
+                  <select name="tipoTasaEntrada">
+                     <option value="" disabled selected></option>
+                     <option value="0">Nominal</option>
+                     <option value="1">Efectiva</option>
+                  </select>
+                  <label>Tipo de tasa Entrada (Vencida)</label>
+               </div>
+               <div class="input-field col m6 s12">
+                  <select name="periodicidadEntrada">
+                     <option value="" disabled selected></option>
+                     <option value="0">Mensual</option>
+                     <option value="1">Bimestral</option>
+                     <option value="2">Trimestral</option>
+                     <option value="3">Semestral</option>
+                     <option value="4">Anual</option>
+                  </select>
+                  <label>Periodicidad de Entrada</label>
+               </div>
+               <div class="input-field col m6 s12">
+                  <select name="tipoTasaSalida">
+                     <option value="" disabled selected></option>
+                     <option value="0">Nominal</option>
+                     <option value="1">Efectiva</option>
+                  </select>
+                  <label>Tipo de tasa Salida (Vencida)</label>
+               </div>
+               <div class="input-field col m6 s12">
+                  <select name="periodicidadSalida">
+                     <option value="" disabled selected></option>
+                     <option value="0">Mensual</option>
+                     <option value="1">Bimestral</option>
+                     <option value="2">Trimestral</option>
+                     <option value="3">Semestral</option>
+                     <option value="4">Anual</option>
+                  </select>
+                  <label>Periodicidad Salida</label>
+               </div>
+               <div class="col s12">
+                  <button class="btn waves-effect waves-light center-content" type="submit" name="action">Calcular</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   <script>
+      $(document).ready(function () {
+         $('select').formSelect();
+      });
+   </script>
+   <script src="main.js"></script>
+</body>
+
+</html>
