@@ -12,13 +12,17 @@
          margin-right: auto;
          display: block;
       }
+
+      .input-field .helper-text {
+         color: #F44336;
+      }
    </style>
 </head>
 
 <body>
    <nav>
-      <div class="nav-wrapper">
-         <a href="#" class="brand-logo center">Equivalencia de Tasas de Interés</a>
+      <div class="nav-wrapper indigo darken-3">
+         <a href="#" class="brand-logo center">Equivalencia - Tasas</a>
       </div>
    </nav>
    <div class="container">
@@ -26,61 +30,74 @@
          <div class="card-content">
             <form id="calcForm" class="row">
                <div class="input-field col s12">
-                  <input id="disabled" type="text" class="validate" name="interes" placeholder="">
-                  <label for="disabled">Valor del interés(%)</label>
+                  <input id="interes" type="number" name="interes" placeholder required >
+                  <label for="interes">Valor del interés(%)</label>
+                  <span class="helper-text" style="display: none;"></span>
                </div>
-               <div class="input-field col m6 s12">
-                  <select name="tipoTasaEntrada">
+               <div class="input-field col s12">
+                  <select id="tipoTasaEntrada" name="tipoTasaEntrada" required>
                      <option value="" disabled selected></option>
                      <option value="0">Nominal</option>
                      <option value="1">Efectiva</option>
                   </select>
                   <label>Tipo de tasa Entrada (Vencida)</label>
+                  <span class="helper-text" style="display: none;"></span>
                </div>
-               <div class="input-field col m6 s12">
-                  <select name="periodicidadEntrada">
+               <div class="input-field col s12">
+                  <select id="periodicidadEntrada" name="periodicidadEntrada" required>
                      <option value="" disabled selected></option>
-                     <option value="0">Mensual</option>
-                     <option value="1">Bimestral</option>
-                     <option value="2">Trimestral</option>
-                     <option value="3">Semestral</option>
-                     <option value="4">Anual</option>
+                     <option value="12">Mensual</option>
+                     <!--<option value="1">Bimestral</option>-->
+                     <option value="4">Trimestral</option>
+                     <option value="2">Semestral</option>
+                     <option value="1">Anual</option>
                   </select>
                   <label>Periodicidad de Entrada</label>
-               </div>
-               <div class="input-field col m6 s12">
-                  <select name="tipoTasaSalida">
-                     <option value="" disabled selected></option>
-                     <option value="0">Nominal</option>
-                     <option value="1">Efectiva</option>
-                  </select>
-                  <label>Tipo de tasa Salida (Vencida)</label>
-               </div>
-               <div class="input-field col m6 s12">
-                  <select name="periodicidadSalida">
-                     <option value="" disabled selected></option>
-                     <option value="0">Mensual</option>
-                     <option value="1">Bimestral</option>
-                     <option value="2">Trimestral</option>
-                     <option value="3">Semestral</option>
-                     <option value="4">Anual</option>
-                  </select>
-                  <label>Periodicidad Salida</label>
+                  <span class="helper-text" style="display: none;"></span>
                </div>
                <div class="col s12">
-                  <button class="btn waves-effect waves-light center-content" type="submit" name="action">Calcular</button>
+                  <button type="submit" class="btn waves-effect waves-light indigo darken-3" name="action">Calcular</button>
+                  <button id="resetCalc" type="reset" class="btn waves-effect waves-light pink lighten-1" name="action">Limpiar</button>
                </div>
             </form>
+
+            <table id="tasasEquivalentes" style="display: none;">
+               <thead>
+                  <tr>
+                     <th>Periodo</th>
+                     <th>Efectiva Vencida</th>
+                     <th>Nominal Vencida</th>
+                  </tr>
+               </thead>
+               <tbody id="resultadoCalculos"></tbody>
+            </table>
          </div>
       </div>
    </div>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
    <script>
       $(document).ready(function () {
          $('select').formSelect();
+
+         $('select[required]').css({
+            display: 'inline',
+            position: 'absolute',
+            float: 'left',
+            padding: 0,
+            margin: 0,
+            border: '1px solid rgba(255,255,255,0)',
+            height: 0, 
+            width: 0,
+            top: '2em',
+            left: '3em',
+            opacity: 0,
+            pointerEvents: 'none'
+         });
       });
    </script>
+   <script src="conversores.strategies.js"></script>
    <script src="main.js"></script>
 </body>
 
