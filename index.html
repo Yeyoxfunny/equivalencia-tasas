@@ -1,49 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Equivalencia de Tasas de Interés</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-   <style>
-      .center-content {
-         margin-left: auto;
-         margin-right: auto;
-         display: block;
-      }
-
-      .input-field .helper-text {
-         color: #F44336;
-      }
-   </style>
+   <title>App</title>
+   <link rel="stylesheet" href="/lib/materialize/materialize.min.css">
+   <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
    <nav>
       <div class="nav-wrapper indigo darken-3">
-         <a href="#" class="brand-logo center">Equivalencia - Tasas</a>
+         <a href="#" class="brand-logo center">App</a>
       </div>
    </nav>
    <div class="container">
-      <div class="card">
-         <div class="card-content">
-            <form id="calcForm" class="row" novalidate>
-               <div class="input-field col s12">
-                  <input id="interes" type="number" name="interes" placeholder required >
+      <div class="section-container z-depth-1 mt-2">
+         <header class="section-header indigo darken-3">
+            <span class="section-title white-text">Datos de Entrada</span>
+         </header>
+         <div class="section-content mt-1">
+            <section class="row">
+               <div class="input-field col s12 m4">
+                  <input id="interes" type="number" name="interes" placeholder required>
                   <label for="interes">Valor del interés(%)</label>
-                  <span class="helper-text" style="display: none;"></span>
                </div>
-               <div class="input-field col s12">
+               <div class="input-field col s12 m4">
                   <select id="tipoTasaEntrada" name="tipoTasaEntrada" required>
                      <option value="" disabled selected></option>
                      <option value="0">Nominal</option>
                      <option value="1">Efectiva</option>
                   </select>
                   <label>Tipo de tasa Entrada (Vencida)</label>
-                  <span class="helper-text" style="display: none;"></span>
                </div>
-               <div class="input-field col s12">
+               <div class="input-field col s12 m4">
                   <select id="periodicidadEntrada" name="periodicidadEntrada" required>
                      <option value="" disabled selected></option>
                      <option value="12">Mensual</option>
@@ -53,52 +44,101 @@
                      <option value="1">Anual</option>
                   </select>
                   <label>Periodicidad de Entrada</label>
-                  <span class="helper-text" style="display: none;"></span>
                </div>
-               <div class="col s12">
-                  <button type="submit" class="btn waves-effect waves-light indigo darken-3" name="action">Calcular</button>
-                  <button id="resetCalc" type="reset" class="btn waves-effect waves-light pink lighten-1" name="action">Limpiar</button>
+               <div class="input-field col s12 m4">
+                  <select id="tipoTasaEntrada" name="tipoTasaEntrada" required>
+                     <option value="" disabled selected></option>
+                     <option value="0">Nominal</option>
+                     <option value="1">Efectiva</option>
+                  </select>
+                  <label>Tipo de tasa de Salida (Vencida)</label>
                </div>
-            </form>
-
-            <table id="tasasEquivalentes" style="display: none;">
-               <thead>
-                  <tr>
-                     <th>Periodo</th>
-                     <th>Efectiva Vencida</th>
-                     <th>Nominal Vencida</th>
-                  </tr>
-               </thead>
-               <tbody id="resultadoCalculos"></tbody>
-            </table>
+               <div class="input-field col s12 m4">
+                  <select id="periodicidadEntrada" name="periodicidadEntrada" required>
+                     <option value="" disabled selected></option>
+                     <option value="12">Mensual</option>
+                     <!--<option value="1">Bimestral</option>-->
+                     <option value="4">Trimestral</option>
+                     <option value="2">Semestral</option>
+                     <option value="1">Anual</option>
+                  </select>
+                  <label>Periodicidad de Salida</label>
+               </div>
+               <div class="input-field col s12 m4">
+                  <input id="tasaCredito" type="number" name="tasaCredito" placeholder required>
+                  <label for="tasaCredito">Tasa Equivalente</label>
+               </div>
+               <div class="class input-field col s12 m4">
+                  <input id="capital" type="number" name="capital" placeholder required>
+                  <label for="capital">Capital</label>
+               </div>
+               <div class="class input-field col s12 m4">
+                  <input id="tiempo" type="number" name="tiempo" placeholder required>
+                  <label for="tiempo">Tiempo</label>
+               </div>
+            </section>
+         </div>
+      </div>
+      <div class="section-container z-depth-1 mt-2">
+         <header class="section-header indigo darken-3">
+            <span class="section-title white-text">Pago Extraordinario</span>
+         </header>
+         <div class="section-content mt-1">
+            <div class="row">
+               <div class="col s12 m6">
+                  <div class="row">
+                     <div class="input-field col s12">
+                        <input id="pagoExtraordinario" type="number" name="pagoExtraordinario" placeholder required>
+                        <label for="pagoExtraordinario">Pago Extraordinario</label>
+                     </div>
+                       <div class="input-field col s12">
+                           <input id="interes" type="number" name="interes" placeholder required>
+                           <label for="interes">Incluye cuota</label>
+                        </div>
+                  </div>
+               </div>
+               <div class="input-field col s12 m6">
+                  <select name="tiempoPagoExtraordinario">
+                     <option value=""></option>
+                     <option value="">1</option>
+                     <option value="">2</option>
+                     <option value="">3</option>
+                  </select>
+                  <label for="tiempoPagoExtraordinario">Tiempo</label>
+               </div>
+               <div class="col s12 m6">
+                  <label for="" style="display: block;">Afecta</label>
+                  <div class="checkbox-container mt-1">
+                     <span>
+                        <label>
+                           <input name="group1" type="radio" checked />
+                           <span>Valor cuota</span>
+                        </label>
+                     </span>
+                     <span style="margin-left: 10px;">
+                        <label>
+                           <input name="group1" type="radio" checked />
+                           <span>Tiempo</span>
+                        </label>
+                     </span>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+
+   <!-- Angular.js Libraries -->
+   <script src="lib/angular/1.6.9/angular.js"></script>
+
+   <!-- Materialize.js and depencdencies -->
+   <script src="lib/jquery/jquery.min.js"></script>
+   <script src="lib/materialize/materialize.min.js"></script>
    <script>
       $(document).ready(function () {
          $('select').formSelect();
-
-         $('select[required]').css({
-            display: 'inline',
-            position: 'absolute',
-            float: 'left',
-            padding: 0,
-            margin: 0,
-            border: '1px solid rgba(255,255,255,0)',
-            height: 0, 
-            width: 0,
-            top: '2em',
-            left: '3em',
-            opacity: 0,
-            pointerEvents: 'none'
-         });
       });
    </script>
-   <script src="conversores.strategies.js"></script>
-   <script src="main.js"></script>
 </body>
 
 </html>

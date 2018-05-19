@@ -7,7 +7,9 @@ class EfectivaAEfectiva {
    }
 
    calcular() {
-      return Math.pow((1 + this.interes), this.periodosEntrada / this.periodosSalida) - 1;
+      const potencia = this.periodosEntrada / this.periodosSalida;
+      const calculo = Math.pow((1 + this.interes), potencia);
+      return  calculo - 1;
    }
 }
 
