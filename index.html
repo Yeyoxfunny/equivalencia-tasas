@@ -38,7 +38,7 @@
             <select id="periodicidadEntrada" name="periodicidadEntrada" required ng-model="periodicidadEntrada">
               <option value="" disabled selected></option>
               <option value="12">Mensual</option>
-              <!--<option value="1">Bimestral</option>-->
+              <!--<option value="1">Bimestral</option>, See ng-selected-->
               <option value="4">Trimestral</option>
               <option value="2">Semestral</option>
               <option value="1">Anual</option>
@@ -54,45 +54,42 @@
             <label for="tiempo">Tiempo</label>
           </div>
           <div class="input-field col s12 m4">
-            <input id="tasaCredito" type="number" name="tasaCredito" placeholder required value="{{ tasaEquivalente * 100 }}">
-            <label for="tasaCredito">Tasa Equivalente (Efectivo Mensual)</label>
+            <input id="tasaCredito" type="text" name="tasaCredito" placeholder value="{{ tasaEquivalente * 100 | redondear: 2 }}">
+            <label for="tasaCredito">Tasa Equivalente (Efectiva Mensual)</label>
           </div>
           <div class="class input-field col s12 m4">
-              <input id="valorCuota" type="number" name="valorCuota" placeholder required ng-model="valorCuota">
-              <label for="valorCuota">Valor Cuota</label>
-            </div>
+            <input id="valorCuota" type="number" name="valorCuota" placeholder ng-model="valorCuota">
+            <label for="valorCuota">Valor Cuota</label>
+          </div>
           <div class="col s12">
             <button class="waves-effect waves-light btn" ng-click="calcular()">Calcular</button>
           </div>
         </section>
       </div>
     </div>
-    <div class="section-container z-depth-1 mt-2">
+    <div class="section-container z-depth-1 mt-2 mb-3">
       <header class="section-header indigo darken-3">
         <span class="section-title white-text">Pago Extraordinario</span>
       </header>
       <div class="section-content mt-1">
         <div class="row">
-            <div class="col s12 m6">
-              <div class="input-field col s12 mb-0">
-                <input id="pagoExtraordinario" type="number" name="pagoExtraordinario"
-                placeholder required ng-model="pagoExtraordinario.valor">
-                <label for="pagoExtraordinario">Pago Extraordinario</label>
-              </div>
-              <div class="col s12">
-                <label>
-                  <input type="checkbox" class="filled-in" />
-                  <span>Incluye cuota</span>
-                </label>
-              </div>
+          <div class="col s12 m6">
+            <div class="input-field mb-0">
+              <input id="pagoExtraordinario" type="number" name="pagoExtraordinario" placeholder required ng-model="pagoExtraordinario.valor">
+              <label for="pagoExtraordinario">Pago Extraordinario</label>
             </div>
-          <div class="input-field col s12 m6">
-            <div class="input-field col s12 mb-0">
-                <input id="tiempoPagoExtraordinario" type="number" name="tiempoPagoExtraordinario"
-                placeholder required ng-model="pagoExtraordinario.tiempo">
-                <label for="tiempoPagoExtraordinario">Tiempo</label>
-              </div>
+            <div>
+              <label>
+                <input type="checkbox" class="filled-in" ng-click="toggleCuota()" ng-model="incluirCuota"/>
+                <span>Incluir cuota</span>
+              </label>
+            </div>
           </div>
+          <div class="input-field col s12 m6 mb-0">
+            <input id="tiempoPagoExtraordinario" type="number" name="tiempoPagoExtraordinario" placeholder required ng-model="pagoExtraordinario.tiempo">
+            <label for="tiempoPagoExtraordinario">Tiempo</label>
+          </div>
+          <div class="row"></div>
           <div class="col s12 m6">
             <label for="" style="display: block;">Afecta</label>
             <div class="checkbox-container mt-1">
@@ -110,9 +107,9 @@
               </span>
             </div>
           </div>
-          <div class="col s12">
-              <button class="waves-effect waves-light btn" ng-click="realizarPagoExtraordinario()">Realizar Pago</button>
-            </div>
+          <div class="input-field col s12">
+            <button class="waves-effect waves-light btn" ng-click="realizarPagoExtraordinario()">Realizar Pago</button>
+          </div>
         </div>
       </div>
     </div>

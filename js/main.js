@@ -1,9 +1,11 @@
 const app = angular.module('myApp', []);
+
 const TIPO_TASA = ['NOMINAL', 'EFECTIVA'];
 const PERIODO_SALIDA_MENSUAL = 12;
 
 app.controller('mainController', function($scope) {
-   
+   $scope.incluirCuota = false;
+
    /** Datos de Entrada */
    $scope.interesEntrada = 18;
    $scope.tipoTasaEntrada = 0;
@@ -19,7 +21,7 @@ app.controller('mainController', function($scope) {
 
    /** Pagos extraordinarios, datos de entrada */
    $scope.pagoExtraordinario = {
-      valor: 1292497.3782,
+      valor: 1000000,
       tiempo: 12,
       afecta: 'TIEMPO'
    };
@@ -40,28 +42,35 @@ app.controller('mainController', function($scope) {
          tasaEquivalente = new EfectivaAEfectiva(interesEntrada, periodoEntrada, PERIODO_SALIDA_MENSUAL)
          .calcular();
       }
-      $scope.tasaEquivalente = parseFloat(tasaEquivalente.toFixed(4));
-      $scope.valorCuota = calcularCuota();
-      console.log($scope.valorCuota);
+      $scope.tasaEquivalente = redondear(tasaEquivalente, 3);
+      console.log('Tasa Equivalente: ' + $scope.tasaEquivalente);
 
+      $scope.valorCuota = calcularCuota();
+      console.log('Valor de la cuota: ' + $scope.valorCuota);
    }
-   
 
    function calcularCuota() {
-      console.log('Tasa Equivalente: ' + $scope.tasaEquivalente);
       const pow = Math.pow((1 + $scope.tasaEquivalente), -$scope.tiempo);
-      console.log('Potencia: ' + pow);
       const cuota = $scope.capital / ((1 - pow) / $scope.tasaEquivalente);
 
       /** Mostrar datos en campo de salida, esta es la cuota inicial */
-      return parseFloat(cuota.toFixed(4));
+      return redondear(cuota, 3);
    }
 
+   $scope.toggleCuota = function() {
+      let valor;
+      if ($scope.incluirCuota) {
+         valor = $scope.pagoExtraordinario.valor + $scope.valorCuota;
+      } else {
+         valor = $scope.pagoExtraordinario.valor - $scope.valorCuota;
+      }
+      $scope.pagoExtraordinario.valor = valor;
+   }
 
    $scope.realizarPagoExtraordinario = function() {
       console.log($scope.pagoExtraordinario);
       const plazosFaltantes = $scope.tiempo - ($scope.pagoExtraordinario.tiempo - 1);
-      console.log(plazosFaltantes);
+      console.log('Plazos Faltantes: ' + plazosFaltantes);
       
       const pow = Math.pow((1 + $scope.tasaEquivalente), -plazosFaltantes);
 
@@ -73,27 +82,29 @@ app.controller('mainController', function($scope) {
       /** Calcula intereses entre plazo anterior (11) y 
        * el plazo en el que se realiza el pago extraordianrio(12) */
       const interesesPorPagar = valorPresenteDeuda * $scope.tasaEquivalente;
+      console.log('Intereses por pagar: ' + interesesPorPagar);
 
       /** Diferencia entre el pago extraordinario realizado menos los intereses por pagar. */
       const valorExtraordinarioNeto = $scope.pagoExtraordinario.valor - interesesPorPagar;
 
       /** Valor Actual de la Deuda. */
       const valorPresenteActual = valorPresenteDeuda - valorExtraordinarioNeto;
-      $scope.capital = valorPresenteActual;
+      $scope.capital = redondear(valorPresenteActual, 3);
       
       console.log(valorPresenteActual);
 
       if ($scope.pagoExtraordinario.afecta === 'TIEMPO') {
          console.log('------ Afecta Tiempo -------------');
          const periodosFaltantes = reduccionTiempo(valorPresenteActual);
-
+         console.log('Periodos Faltantes: ' + periodosFaltantes);
          /** Actualizar Tiempo */
-         $scope.tiempo = periodosFaltantes + $scope.pagoExtraordinario.tiempo;
+         $scope.tiempo = redondear(periodosFaltantes + $scope.pagoExtraordinario.tiempo, 2);
       } else {
          console.log('------ Afecta Valor Cuota -------------');
-         $scope.valorCuota = reduccionCuota(valorPresenteActual);
+         $scope.valorCuota = redondear(reduccionCuota(valorPresenteActual), 3);
       }
-      
+      $scope.pagoExtraordinario = undefined;
+      $scope.incluirCuota = false;
    }
 
    function reduccionTiempo(valorPresenteActual) {
@@ -119,4 +130,14 @@ app.controller('mainController', function($scope) {
       const nuevaCuota = valorPresenteActual / ((1 - pow) / $scope.tasaEquivalente);
       return nuevaCuota;
    }
+
+   function redondear(valor, decimales) {
+      return parseFloat(valor.toFixed(20).slice(0, decimales - 20));
+   }
 });
+
+app.filter('redondear', function() {
+   return function(valor, digitos) {
+      return valor.toFixed(digitos);
+   }
+})
