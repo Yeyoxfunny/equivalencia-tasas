@@ -6,6 +6,8 @@ const PERIODO_SALIDA_MENSUAL = 12;
 app.controller('mainController', function($scope) {
    $scope.incluirCuota = false;
 
+   $scope.movimientos = [];
+
    /** Datos de Entrada */
    $scope.interesEntrada = 18;
    $scope.tipoTasaEntrada = 0;
@@ -26,6 +28,16 @@ app.controller('mainController', function($scope) {
       afecta: 'TIEMPO'
    };
    
+   function agregarMovimiento(afecta, descripcion) {
+      const movimiento = {
+         capital: $scope.capital,
+         cuota: $scope.valorCuota,
+         tiempo: $scope.tiempo,
+         afecta: afecta,
+         descripcion: descripcion
+      };
+      $scope.movimientos.push(movimiento);
+   }
 
    $scope.calcular = function() {
       const tipoTasaIndex = parseInt($scope.tipoTasaEntrada);
@@ -47,6 +59,8 @@ app.controller('mainController', function($scope) {
 
       $scope.valorCuota = calcularCuota();
       console.log('Valor de la cuota: ' + $scope.valorCuota);
+
+      agregarMovimiento();
    }
 
    function calcularCuota() {
@@ -103,6 +117,9 @@ app.controller('mainController', function($scope) {
          console.log('------ Afecta Valor Cuota -------------');
          $scope.valorCuota = redondear(reduccionCuota(valorPresenteActual), 3);
       }
+
+      const descripcion = 'Pago extraordinario en el periodo ' + $scope.pagoExtraordinario.tiempo;
+      agregarMovimiento($scope.pagoExtraordinario.afecta, descripcion);
       $scope.pagoExtraordinario = undefined;
       $scope.incluirCuota = false;
    }

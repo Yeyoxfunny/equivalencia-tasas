@@ -80,7 +80,7 @@
             </div>
             <div>
               <label>
-                <input type="checkbox" class="filled-in" ng-click="toggleCuota()" ng-model="incluirCuota"/>
+                <input type="checkbox" class="filled-in" ng-click="toggleCuota()" ng-model="incluirCuota" />
                 <span>Incluir cuota</span>
               </label>
             </div>
@@ -95,7 +95,7 @@
             <div class="checkbox-container mt-1">
               <span>
                 <label>
-                  <input name="group1" type="radio" value="VALOR_CUOTA" ng-model="pagoExtraordinario.afecta" />
+                  <input name="group1" type="radio" value="CUOTA" ng-model="pagoExtraordinario.afecta" />
                   <span>Valor cuota</span>
                 </label>
               </span>
@@ -111,6 +111,33 @@
             <button class="waves-effect waves-light btn" ng-click="realizarPagoExtraordinario()">Realizar Pago</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="section-container z-depth-1 mt-2 mb-3">
+      <header class="section-header indigo darken-3">
+        <span class="section-title white-text">Movimientos</span>
+      </header>
+      <div class="section-content mt-1">
+        <table>
+          <thead>
+            <tr>
+              <th>Capital</th>
+              <th>Cuota</th>
+              <th>Tiempo</th>
+              <th>Afecta</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="movimiento in movimientos">
+              <td>{{ movimiento.capital }}</td>
+              <td>{{ movimiento.cuota }}</td>
+              <td>{{ movimiento.tiempo }}</td>
+              <td>{{ movimiento.afecta }}</td>
+              <td>{{ movimiento.descripcion }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
